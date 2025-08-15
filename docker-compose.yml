@@ -1,0 +1,14 @@
+
+services:
+  backend:
+    build: ./backend
+    container_name: dataviz_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./media:/app/media
+    environment:
+      - DJANGO_DEBUG=1
+      - DJANGO_SECRET_KEY=dev-secret
+      - DJANGO_ALLOWED_HOSTS=*
+    restart: unless-stopped
