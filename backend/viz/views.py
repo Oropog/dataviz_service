@@ -111,15 +111,15 @@ def plot(request, payload: PlotRequest):
                 bins=payload.bins,
                 fmt='jpeg' if fmt in {'jpeg', 'jpg'} else 'png',
             )
-            # Сохраняем в media/
+            # Сохраняем изображение и отдаём пользователю
             os.makedirs(settings.MEDIA_ROOT, exist_ok=True)
             graph_path = os.path.join(settings.MEDIA_ROOT, f"graph.{fmt}")
             with open(graph_path, "wb") as f:
-                #f.write(img_bytes)
-                return HttpResponse(f.read(), content_type='image/png')
+                f.write(img)
+                return HttpResponse(img, content_type=f"image/{'jpeg' if fmt in {'jpeg','jpg'} else 'png'}")
         except Exception as e:
             return Response({"detail": f"plot error: {e}"}, status=400)
-        return HttpResponse(img, content_type=f"image/{'jpeg' if fmt in {'jpeg','jpg'} else 'png'}")
+        #return HttpResponse(img, content_type=f"image/{'jpeg' if fmt in {'jpeg','jpg'} else 'png'}")
 
     elif fmt == 'html':
         try:
